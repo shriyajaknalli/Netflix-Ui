@@ -49,10 +49,10 @@ export class MovieCardComponent {
   }
 
    getFormattedRating(): string {
-    return this.content.rating.toFixed(1);
+    return this.content.vote_average.toFixed(1);
   }
 
    getGenreString(): string {
-    return this.content.genre.slice(0, 2).join(' • ');
+    return this.content.genre_ids.slice(0, 2).join(' • ');
   }
 }
