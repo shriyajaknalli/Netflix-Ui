@@ -1,0 +1,46 @@
+<div class="modal-backdrop" (click)="closeModal()"></div>
+<div class="modal-container">
+  <button class="close-button" (click)="closeModal()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="modal-content">
+ <div class="modal-header" [style.backgroundImage]="'url(https://image.tmdb.org/t/p/w1280' + content?.backdrop_path + ')'">
+      <div class="header-overlay"></div>
+      <h1 class="modal-title">{{ content?.title }}</h1>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-description">{{ content?.description }}</p>
+      <div class="modal-meta">
+        <span class="rating">{{ content?.vote_average }}/10</span>
+        <span class="year">{{ content?.release_date ? (content?.release_date | date:'yyyy') : 'N/A' }}</span>
+      </div>
+      <div class="modal-genres">
+        {{ content?.genre_ids?.join(' • ') || 'No genres available' }}
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" (click)="playContent()">
+          <mat-icon>play_arrow</mat-icon>
+          Play
+        </button>
+        <button class="btn btn-secondary" (click)="addToList()">
+          <mat-icon>add</mat-icon>
+          My List
+        </button>
+      </div>
+    </div>
+
+     <div class="similar-movies">
+    <h3>Similar Movies</h3>
+    <div class="similar-movies-list">
+      <app-movie-card 
+        *ngFor="let movie of similarMovies" 
+        [content]="movie"
+        [size]="'small'"
+        (cardClicked)="onCardClick(movie)">
+      </app-movie-card>
+    </div>
+  </div>
+</div>
