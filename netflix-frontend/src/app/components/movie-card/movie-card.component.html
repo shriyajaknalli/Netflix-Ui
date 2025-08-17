@@ -1,4 +1,3 @@
-  
 <div class="movie-card" 
      [class]="'card-' + size" 
      [class.hovered]="isHovered"
@@ -11,8 +10,8 @@
     </div>
     
     <img 
-      [src]="content.posterUrl" 
-      [alt]="content.title"
+      [src]="'https://image.tmdb.org/t/p/w500' + content.poster_path" 
+      [alt]="content.title || content.name"
       class="card-image"
       [class.loaded]="imageLoaded"
       (load)="onImageLoad()"
@@ -21,7 +20,7 @@
     
     <div class="error-placeholder" *ngIf="imageError">
       <mat-icon>broken_image</mat-icon>
-      <span>{{ content.title }}</span>
+      <span>{{ content.title  || content.name }}</span>
     </div>
 
     <!-- Hover Overlay -->
@@ -51,11 +50,9 @@
     <div class="card-meta">
       <span class="rating">
         <mat-icon class="rating-icon">star</mat-icon>
-        {{ getFormattedRating() }}
+        {{ content.vote_average | number:'1.1-1' }}
       </span>
-      <span class="year">{{ content.year }}</span>
-      <span class="duration">{{ content.duration }}m</span>
+      <span class="year">{{ content.release_date ? (content.release_date | date:'yyyy') : 'N/A' }}</span>
     </div>
-    <div class="card-genres">{{ getGenreString() }}</div>
   </div>
 </div>

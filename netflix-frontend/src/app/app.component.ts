@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Content, ContentCategory } from './models/content.interface';
-
+import { ModalService } from './services/modal.service';
+import { ContentService } from './services/content.service'; // Adjust the path as needed
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,10 +12,17 @@ export class AppComponent implements OnInit {
   trendingContent: Content[] = [];
   popularContent: Content[] = [];
   originalContent: Content[] = [];
+  selectedContent: Content | null = null;
+
+  constructor(private contentService: ContentService, private modalService: ModalService) {
+     this.modalService.modalState$.subscribe(modalState => {
+      this.selectedContent = modalState.content;
+   });}
+
 
   onCardClick(content: Content) {
     console.log('Content clicked:', content.title);
-    // TODO: Open detail modal in Phase 2.2
+    this.modalService.openModal(content);
   }
 
    onPlayContent(content: Content) {
@@ -32,45 +40,46 @@ export class AppComponent implements OnInit {
   }
 
   private loadContent() {
-    // Featured content
-    this.featuredContent = {
-      id: 1,
-      title: "Stranger Things",
-      description: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.",
-      posterUrl: "https://via.placeholder.com/300x450/141414/ffffff?text=Stranger+Things",
-      backdropUrl: "https://via.placeholder.com/1280x720/141414/e50914?text=Stranger+Things+Backdrop",
-      genre: ["Drama", "Fantasy", "Horror"],
-      rating: 8.7,
-      year: 2016,
-      duration: 51,
-      category: ContentCategory.SERIES,
-      isFeatured: true
-    };
+  
+    this.contentService.getTrendingContent().subscribe((content) => {
+      this.trendingContent = content;
 
-    // Sample content arrays
-    this.trendingContent = this.generateSampleContent(10);
-    this.popularContent = this.generateSampleContent(10);
-    this.originalContent = this.generateSampleContent(10);
-  }
+       if (content.length > 0) {
+        this.featuredContent = content[0]; // Set the first item as the featured content
+        console.log('Featured Content Set:', this.featuredContent); // Debugging
+      }
+      
+    // Fetch popular content
+    this.contentService.getPopularContent().subscribe((content) => {
+      this.popularContent = content;
+    });
 
-  private generateSampleContent(count: number): Content[] {
-    // Generate sample content for testing
-    const contents: Content[] = [];
-    for (let i = 1; i <= count; i++) {
-      contents.push({
-        id: i,
-        title: `Title ${i}`,
-        description: `Description for title ${i}`,
-        posterUrl: `assets/poster-${i}.jpg`,
-        backdropUrl: `assets/backdrop-${i}.jpg`,
-        genre: ["Action", "Drama"],
-        rating: 7.5 + Math.random() * 2,
-        year: 2020 + Math.floor(Math.random() * 4),
-        duration: 90 + Math.floor(Math.random() * 60),
-        category: Math.random() > 0.5 ? ContentCategory.MOVIE : ContentCategory.SERIES
-      });
-    }
-    return contents;
-  }
+    // Fetch Netflix Originals
+    this.contentService.getNetflixOriginals().subscribe((content) => {
+      this.originalContent = content;
+    });
 
+  } );
+
+  // private generateSampleContent(count: number): Content[] {
+  //   // Generate sample content for testing
+  //   const contents: Content[] = [];
+  //   for (let i = 1; i <= count; i++) {
+  //     contents.push({
+  //       id: i,
+  //       title: `Title ${i}`,
+  //       description: `Description for title ${i}`,
+  //       posterUrl: `assets/poster-${i}.jpg`,
+  //       backdropUrl: `assets/backdrop-${i}.jpg`,
+  //       genre: ["Action", "Drama"],
+  //       rating: 7.5 + Math.random() * 2,
+  //       year: 2020 + Math.floor(Math.random() * 4),
+  //       duration: 90 + Math.floor(Math.random() * 60),
+  //       category: Math.random() > 0.5 ? ContentCategory.MOVIE : ContentCategory.SERIES
+  //     });
+  //   }
+  //   return contents;
+  // }
+
+}
 }
