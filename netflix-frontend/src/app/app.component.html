@@ -8,19 +8,28 @@
       <app-content-row 
         title="Trending Now"
         [contents]="trendingContent"
-        (cardClicked)="onCardClick($event)">
+        cardSize="large"
+        (cardClicked)="onCardClick($event)"
+        (playClicked)="onPlayContent($event)"
+        (addToListClicked)="onAddToList($event)">
       </app-content-row>
       
       <app-content-row 
         title="Popular on Netflix"
         [contents]="popularContent"
-        (cardClicked)="onCardClick($event)">
+        cardSize="medium"
+        (cardClicked)="onCardClick($event)"
+        (playClicked)="onPlayContent($event)"
+        (addToListClicked)="onAddToList($event)">
       </app-content-row>
       
       <app-content-row 
         title="Netflix Originals"
         [contents]="originalContent"
-        (cardClicked)="onCardClick($event)">
+        cardSize="medium"
+        (cardClicked)="onCardClick($event)"
+        (playClicked)="onPlayContent($event)"
+        (addToListClicked)="onAddToList($event)">
       </app-content-row>
     </div>
   </main>

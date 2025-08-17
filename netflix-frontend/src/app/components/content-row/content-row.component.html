@@ -1,4 +1,3 @@
-
 <div class="content-row">
   <h2 class="row-title">{{ title }}</h2>
   
@@ -11,7 +10,10 @@
       <app-movie-card 
         *ngFor="let content of contents" 
         [content]="content"
-        (cardClicked)="onCardClick($event)">
+        [size]="cardSize"
+        (cardClicked)="onCardClick($event)"
+        (playClicked)="onPlayClick($event)"
+        (addToListClicked)="onAddToListClick($event)">
       </app-movie-card>
     </div>
     

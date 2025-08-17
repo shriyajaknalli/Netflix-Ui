@@ -10,7 +10,10 @@ import { ElementRef } from '@angular/core';
 export class ContentRowComponent {
   @Input() title!: string;
   @Input() contents: Content[] = [];
+  @Input() cardSize: 'small' | 'medium' | 'large' = 'medium';
   @Output() cardClicked = new EventEmitter<Content>();
+  @Output() playClicked = new EventEmitter<Content>();
+  @Output() addToListClicked = new EventEmitter<Content>();
   @ViewChild('slider') slider!: ElementRef;
 
   showArrows = false;
@@ -19,18 +22,35 @@ export class ContentRowComponent {
     this.cardClicked.emit(content);
   }
 
+   onPlayClick(content: Content) {
+    this.playClicked.emit(content);
+  }
+
+  onAddToListClick(content: Content) {
+    this.addToListClicked.emit(content);
+  }
+
   scrollLeft() {
+   const scrollAmount = this.getScrollAmount();
     this.slider.nativeElement.scrollBy({
-      left: -300,
+      left: -scrollAmount,
       behavior: 'smooth'
     });
   }
 
   scrollRight() {
+      const scrollAmount = this.getScrollAmount();
     this.slider.nativeElement.scrollBy({
-      left: 300,
+      left: scrollAmount,
       behavior: 'smooth'
     });
+  }
+   private getScrollAmount(): number {
+    switch (this.cardSize) {
+      case 'small': return 400;
+      case 'large': return 600;
+      default: return 500;
+    }
   }
 }
 

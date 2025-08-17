@@ -12,6 +12,21 @@ export class AppComponent implements OnInit {
   popularContent: Content[] = [];
   originalContent: Content[] = [];
 
+  onCardClick(content: Content) {
+    console.log('Content clicked:', content.title);
+    // TODO: Open detail modal in Phase 2.2
+  }
+
+   onPlayContent(content: Content) {
+    console.log('Playing content:', content.title);
+    // TODO: Navigate to player in Phase 3
+  }
+
+   onAddToList(content: Content) {
+    console.log('Added to list:', content.title);
+    // TODO: Add to user's list functionality
+  }
+
   ngOnInit() {
     this.loadContent();
   }
@@ -22,8 +37,8 @@ export class AppComponent implements OnInit {
       id: 1,
       title: "Stranger Things",
       description: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.",
-      posterUrl: "assets/stranger-things-poster.jpg",
-      backdropUrl: "assets/stranger-things-backdrop.jpg",
+      posterUrl: "https://via.placeholder.com/300x450/141414/ffffff?text=Stranger+Things",
+      backdropUrl: "https://via.placeholder.com/1280x720/141414/e50914?text=Stranger+Things+Backdrop",
       genre: ["Drama", "Fantasy", "Horror"],
       rating: 8.7,
       year: 2016,
@@ -58,7 +73,4 @@ export class AppComponent implements OnInit {
     return contents;
   }
 
-  onCardClick(content: Content) {
-    console.log('Content clicked:', content);
-  }
 }

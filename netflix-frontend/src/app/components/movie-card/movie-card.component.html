@@ -1,8 +1,61 @@
   
-  <div class="movie-card" (click)="onCardClick()">
-      <img [src]="content.posterUrl" [alt]="content.title">
-      <div class="card-info">
-        <h3>{{ content.title }}</h3>
-        <p>{{ content.year }} • {{ content.rating }}/10</p>
+<div class="movie-card" 
+     [class]="'card-' + size" 
+     [class.hovered]="isHovered"
+     (click)="onCardClick()">
+  
+  <!-- Main Card Image -->
+  <div class="card-image-container">
+    <div class="card-loading" *ngIf="!imageLoaded && !imageError">
+      <div class="loading-skeleton"></div>
+    </div>
+    
+    <img 
+      [src]="content.posterUrl" 
+      [alt]="content.title"
+      class="card-image"
+      [class.loaded]="imageLoaded"
+      (load)="onImageLoad()"
+      (error)="onImageError()"
+      *ngIf="!imageError">
+    
+    <div class="error-placeholder" *ngIf="imageError">
+      <mat-icon>broken_image</mat-icon>
+      <span>{{ content.title }}</span>
+    </div>
+
+    <!-- Hover Overlay -->
+    <div class="card-overlay" *ngIf="isHovered">
+      <div class="overlay-content">
+        <div class="action-buttons">
+          <button class="btn-play" (click)="onPlayClick($event)" title="Play">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+          <button class="btn-add" (click)="onAddToListClick($event)" title="Add to My List">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button class="btn-like" title="I like this">
+            <mat-icon>thumb_up</mat-icon>
+          </button>
+          <button class="btn-more" title="More info">
+            <mat-icon>expand_more</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Card Info (appears on hover) -->
+  <div class="card-info" *ngIf="isHovered">
+    <h3 class="card-title">{{ content.title }}</h3>
+    <div class="card-meta">
+      <span class="rating">
+        <mat-icon class="rating-icon">star</mat-icon>
+        {{ getFormattedRating() }}
+      </span>
+      <span class="year">{{ content.year }}</span>
+      <span class="duration">{{ content.duration }}m</span>
+    </div>
+    <div class="card-genres">{{ getGenreString() }}</div>
+  </div>
+</div>
