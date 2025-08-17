@@ -1,0 +1,8 @@
+  
+  <div class="movie-card" (click)="onCardClick()">
+      <img [src]="content.posterUrl" [alt]="content.title">
+      <div class="card-info">
+        <h3>{{ content.title }}</h3>
+        <p>{{ content.year }} • {{ content.rating }}/10</p>
+      </div>
+    </div>

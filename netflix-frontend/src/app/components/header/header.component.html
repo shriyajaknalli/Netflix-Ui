@@ -1,0 +1,33 @@
+<header class="netflix-header">
+  <div class="header-left">
+    <div class="netflix-logo">
+      <img src="assets/netflix-logo.png" alt="Netflix" />
+    </div>
+    <nav class="main-nav">
+      <a href="#" class="nav-link">Home</a>
+      <a href="#" class="nav-link">TV Shows</a>
+      <a href="#" class="nav-link">Movies</a>
+      <a href="#" class="nav-link">New & Popular</a>
+      <a href="#" class="nav-link">My List</a>
+    </nav>
+  </div>
+  
+  <div class="header-right">
+    <div class="search-container" [class.active]="isSearchVisible">
+      <button class="search-toggle" (click)="toggleSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+      <input 
+        type="text" 
+        placeholder="Search titles, people, genres" 
+        class="search-input"
+        [class.visible]="isSearchVisible" />
+    </div>
+    <button class="notifications">
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <div class="profile-menu">
+      <img src="assets/profile-avatar.png" alt="Profile" class="profile-avatar" />
+    </div>
+  </div>
+</header>

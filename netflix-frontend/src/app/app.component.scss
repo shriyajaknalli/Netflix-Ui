@@ -1,0 +1,17 @@
+.app-container {
+  background-color: #141414;
+  min-height: 100vh;
+  padding: 20px;
+  
+  h1 {
+    color: white;
+    text-align: center;
+  }
+  
+  .test-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,11 @@
+<div class="app-container">
+  <h1>Netflix Clone - Step by Step</h1>
+  
+  <div class="test-cards">
+    <app-movie-card 
+      *ngFor="let content of testContent" 
+      [content]="content"
+      (cardClicked)="onCardClick($event)">
+    </app-movie-card>
+  </div>
+</div>
