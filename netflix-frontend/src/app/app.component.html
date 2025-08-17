@@ -1,11 +1,27 @@
-<div class="app-container">
-  <h1>Netflix Clone - Step by Step</h1>
+<div class="netflix-app">
+  <app-header></app-header>
   
-  <div class="test-cards">
-    <app-movie-card 
-      *ngFor="let content of testContent" 
-      [content]="content"
-      (cardClicked)="onCardClick($event)">
-    </app-movie-card>
-  </div>
+  <main class="main-content">
+    <app-hero-banner [featuredContent]="featuredContent"></app-hero-banner>
+    
+    <div class="content-sections">
+      <app-content-row 
+        title="Trending Now"
+        [contents]="trendingContent"
+        (cardClicked)="onCardClick($event)">
+      </app-content-row>
+      
+      <app-content-row 
+        title="Popular on Netflix"
+        [contents]="popularContent"
+        (cardClicked)="onCardClick($event)">
+      </app-content-row>
+      
+      <app-content-row 
+        title="Netflix Originals"
+        [contents]="originalContent"
+        (cardClicked)="onCardClick($event)">
+      </app-content-row>
+    </div>
+  </main>
 </div>

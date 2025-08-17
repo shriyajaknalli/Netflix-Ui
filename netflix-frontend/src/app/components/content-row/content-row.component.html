@@ -1,1 +1,22 @@
-<p>content-row works!</p>
+
+<div class="content-row">
+  <h2 class="row-title">{{ title }}</h2>
+  
+  <div class="row-content">
+    <button class="slider-arrow prev" (click)="scrollLeft()" *ngIf="showArrows">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    
+    <div class="content-slider" #slider>
+      <app-movie-card 
+        *ngFor="let content of contents" 
+        [content]="content"
+        (cardClicked)="onCardClick($event)">
+      </app-movie-card>
+    </div>
+    
+    <button class="slider-arrow next" (click)="scrollRight()" *ngIf="showArrows">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="hero-banner" [style.background-image]="'url(' + featuredContent?.backdropUrl + ')'">
+  <div class="hero-content">
+    <div class="hero-info">
+      <h1 class="hero-title">{{ featuredContent?.title }}</h1>
+      <p class="hero-description">{{ featuredContent?.description }}</p>
+      
+      <div class="hero-actions">
+        <button class="btn btn-primary" (click)="playContent()">
+          <mat-icon>play_arrow</mat-icon>
+          Play
+        </button>
+        <button class="btn btn-secondary" (click)="addToList()">
+          <mat-icon>add</mat-icon>
+          My List
+        </button>
+      </div>
+      
+      <div class="hero-meta">
+        <span class="rating">{{ featuredContent?.rating }}/10</span>
+        <span class="year">{{ featuredContent?.year }}</span>
+        <span class="duration">{{ featuredContent?.duration }}m</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero-overlay"></div>
+</div>
