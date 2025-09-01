@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { Content, ContentCategory } from './models/content.interface';
 import { ModalService } from './services/modal.service';
 import { ContentService } from './services/content.service'; // Adjust the path as needed
@@ -41,45 +42,69 @@ export class AppComponent implements OnInit {
 
   private loadContent() {
   
-    this.contentService.getTrendingContent().subscribe((content) => {
-      this.trendingContent = content;
-
-       if (content.length > 0) {
-        this.featuredContent = content[0]; // Set the first item as the featured content
-        console.log('Featured Content Set:', this.featuredContent); // Debugging
+    // Use forkJoin to load all content simultaneously
+    forkJoin({
+      trending: this.contentService.getTrendingContent(),
+      popular: this.contentService.getPopularContent(),
+      originals: this.contentService.getNetflixOriginals()
+    }).subscribe({
+      next: (results) => {
+        console.log('All content loaded:', results);
+        
+        // Assign the results
+        this.trendingContent = results.trending;
+        this.popularContent = results.popular;
+        this.originalContent = results.originals;
+        
+        // Set featured content from trending
+        if (this.trendingContent.length > 0) {
+          this.featuredContent = this.trendingContent[0];
+          console.log('Featured Content Set:', this.featuredContent);
+        }
+        
+        // Debug logging
+        console.log('Trending Content:', this.trendingContent.length, 'items');
+        console.log('Popular Content:', this.popularContent.length, 'items');
+        console.log('Original Content:', this.originalContent.length, 'items');
+      },
+      error: (error) => {
+        console.error('Error loading content:', error);
+        
+        // Fallback to mock data if API fails
+        this.loadMockData();
       }
-      
-    // Fetch popular content
-    this.contentService.getPopularContent().subscribe((content) => {
-      this.popularContent = content;
     });
+}
 
-    // Fetch Netflix Originals
-    this.contentService.getNetflixOriginals().subscribe((content) => {
-      this.originalContent = content;
-    });
+  private loadMockData() {
+    console.log('Loading mock data as fallback...');
+    
+    // Generate mock data for each section
+    this.trendingContent = this.generateMockContent(20, 'Trending');
+    this.popularContent = this.generateMockContent(20, 'Popular');
+    this.originalContent = this.generateMockContent(20, 'Original');
+    
+    if (this.trendingContent.length > 0) {
+      this.featuredContent = this.trendingContent[0];
+    }
+  }
 
-  } );
-
-  // private generateSampleContent(count: number): Content[] {
-  //   // Generate sample content for testing
-  //   const contents: Content[] = [];
-  //   for (let i = 1; i <= count; i++) {
-  //     contents.push({
-  //       id: i,
-  //       title: `Title ${i}`,
-  //       description: `Description for title ${i}`,
-  //       posterUrl: `assets/poster-${i}.jpg`,
-  //       backdropUrl: `assets/backdrop-${i}.jpg`,
-  //       genre: ["Action", "Drama"],
-  //       rating: 7.5 + Math.random() * 2,
-  //       year: 2020 + Math.floor(Math.random() * 4),
-  //       duration: 90 + Math.floor(Math.random() * 60),
-  //       category: Math.random() > 0.5 ? ContentCategory.MOVIE : ContentCategory.SERIES
-  //     });
-  //   }
-  //   return contents;
-  // }
-
+   private generateMockContent(count: number, prefix: string): Content[] {
+    const mockContent: Content[] = [];
+    
+    for (let i = 1; i <= count; i++) {
+      mockContent.push({
+        id: Date.now() + i,
+        title: `${prefix} Movie ${i}`,
+        overview: `This is a ${prefix.toLowerCase()} movie description for movie ${i}. It has an engaging plot and great characters.`,
+        poster_path: '/placeholder-poster.jpg',
+        backdrop_path: '/placeholder-backdrop.jpg',
+        genre_ids: [28, 12, 16], // Action, Adventure, Animation
+        vote_average: 7.5 + (Math.random() * 2),
+        release_date: `${2020 + Math.floor(Math.random() * 4)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`,
+        popularity: Math.random() * 1000
+      });
+    }
+    return mockContent;
 }
 }

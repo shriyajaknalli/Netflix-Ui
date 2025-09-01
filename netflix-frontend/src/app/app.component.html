@@ -8,7 +8,7 @@
       <app-content-row 
         title="Trending Now"
         [contents]="trendingContent"
-        cardSize="large"
+        cardSize="medium"
         (cardClicked)="onCardClick($event)"
         (playClicked)="onPlayContent($event)"
         (addToListClicked)="onAddToList($event)">
@@ -33,5 +33,9 @@
       </app-content-row>
     </div>
   </main>
-   <app-movie-detail *ngIf="selectedContent" [content]="selectedContent"></app-movie-detail>
+   <app-movie-detail 
+   *ngIf="selectedContent" 
+   [content]="selectedContent"
+   (closeModal)="selectedContent = null">
+  </app-movie-detail>
 </div>

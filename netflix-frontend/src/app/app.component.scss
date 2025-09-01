@@ -1,14 +1,13 @@
-.app-container {
-  background-color: #141414;
+.netflix-app {
   min-height: 100vh;
-  padding: 20px;
-  
+  background-color: var(--color-gray-dark);
+}
+
 .main-content {
-  // padding-top: 68px; // Header height
+  /* Remove all negative margins and conflicting padding */
 }
 
 .content-sections {
-  padding: 40px 0;
-  background-color: #141414;
-}
+  padding: var(--spacing-xl) 0;
+  background-color: var(--color-gray-dark);
 }
