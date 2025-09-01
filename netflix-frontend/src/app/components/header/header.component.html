@@ -1,33 +1,46 @@
-<header class="netflix-header">
-  <div class="header-left">
-    <div class="netflix-logo">
-      <img src="assets/netflix-logo.png" alt="Netflix" />
+<header class="netflix-header" [class.scrolled]="isScrolled" role="banner">
+  <div class="header-container">
+    <!-- Left: Logo -->
+    <div class="header-left">
+      <img src="assets/netflix-logo.png" alt="Netflix" class="netflix-logo" />
     </div>
-    <nav class="main-nav">
-      <a href="#" class="nav-link">Home</a>
+
+    <!-- Center: Navigation -->
+    <nav class="main-nav" role="navigation">
+      <a href="#" class="nav-link" [class.active]="true">Home</a>
       <a href="#" class="nav-link">TV Shows</a>
       <a href="#" class="nav-link">Movies</a>
       <a href="#" class="nav-link">New & Popular</a>
       <a href="#" class="nav-link">My List</a>
     </nav>
-  </div>
-  
-  <div class="header-right">
-    <div class="search-container" [class.active]="isSearchVisible">
-      <button class="search-toggle" (click)="toggleSearch()">
+
+    <!-- Right: Utilities -->
+    <div class="header-right">
+      <button class="header-btn" aria-label="Search" (click)="toggleSearch()">
         <mat-icon>search</mat-icon>
       </button>
-      <input 
-        type="text" 
-        placeholder="Search titles, people, genres" 
-        class="search-input"
-        [class.visible]="isSearchVisible" />
+      <button class="header-btn" aria-label="Notifications">
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <div class="profile-menu">
+        <img src="https://via.placeholder.com/32x32/666/fff?text=U" alt="Profile" class="profile-avatar" />
+      </div>
     </div>
-    <button class="notifications">
-      <mat-icon>notifications</mat-icon>
+
+    <!-- Mobile Hamburger -->
+    <button class="hamburger-menu" aria-label="Menu" (click)="toggleMobileNav()">
+      <mat-icon>menu</mat-icon>
     </button>
-    <div class="profile-menu">
-      <img src="assets/profile-avatar.png" alt="Profile" class="profile-avatar" />
-    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" [class.visible]="isMobileNavVisible">
+    <nav class="mobile-nav-links">
+      <a href="#" class="nav-link active">Home</a>
+      <a href="#" class="nav-link">TV Shows</a>
+      <a href="#" class="nav-link">Movies</a>
+      <a href="#" class="nav-link">New & Popular</a>
+      <a href="#" class="nav-link">My List</a>
+    </nav>
   </div>
 </header>
