@@ -1,51 +1,92 @@
-/* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
-// * {
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: border-box;
-// }
+/* Design Tokens */
+:root {
+  /* Colors */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-light: #e5e5e5;
+  --color-gray-dark: #141414;
+  --color-red: #e50914;
+  --color-hover-tint: rgba(255, 255, 255, 0.1);
 
-html, body { 
-  margin: 0; 
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 60px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Typography */
+  --font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-md: 20px;
+  --font-size-lg: 24px;
+  --font-size-xl: 28px;
+  --font-weight-medium: 500;
+
+  /* Z-Indexes */
+  --z-index-header: 100;
+  --z-index-modal: 200;
+  --z-index-overlay: 300;
+
+  /* Transparency */
+  --transparency-bg: rgba(0, 0, 0, 0.6);
+  --transparency-hover: rgba(255, 255, 255, 0.1);
+  --fallback-bg: #141414;
+}
+
+/* Global Reset */
+* {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
-  height: 100%; 
-  background-color: #141414;
-  font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: white;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--color-gray-dark);
+  font-family: var(--font-family);
+  color: var(--color-white);
   overflow-x: hidden;
 }
 
 .netflix-app {
   min-height: 100vh;
-  background-color: #141414;
+  background-color: var(--color-gray-dark);
 }
 
 .main-content {
-  padding-top: 68px; // Header height
-  margin-left: -3rem;
+  /* Remove negative margins and padding-top */
+  margin: 0;
+  padding: 0;
 }
 
 .content-sections {
-  padding: 40px 0;
-  background-color: #141414;
+  padding: var(--spacing-xl) 0;
+  background-color: var(--color-gray-dark);
 }
 
-// Scrollbar styles
+/* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #141414;
+  background: var(--color-gray-dark);
 }
 
 ::-webkit-scrollbar-thumb {
   background: #555;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 ::-webkit-scrollbar-thumb:hover {
