@@ -1,12 +1,19 @@
 .content-row {
-  margin-bottom: 40px;
+  margin-bottom: var(--spacing-xxl);
+  position: relative;
   
   .row-title {
-    color: #e5e5e5;
-    font-size: 1.4rem;
+    color: var(--color-white);
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 15px;
-    padding: 0 60px;
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-xxl);
+    
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+      padding: 0 var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+    }
   }
   
   .row-content {
@@ -14,45 +21,152 @@
     
     .content-slider {
       display: flex;
-      gap: 4px;
-      padding: 0 60px;
+      gap: var(--spacing-sm);
+      padding: 0 var(--spacing-xxl);
       overflow-x: auto;
+      overflow-y: visible;
       scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      
+      @media (max-width: 768px) {
+        padding: 0 var(--spacing-lg);
+        gap: var(--spacing-xs);
+      }
       
       &::-webkit-scrollbar {
         display: none;
       }
+
+      // Allow cards to scale up without being clipped
+      padding-top: var(--spacing-md);
+      padding-bottom: var(--spacing-md);
+      margin-top: calc(-1 * var(--spacing-md));
+      margin-bottom: calc(-1 * var(--spacing-md));
     }
     
     .slider-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.7);
-      color: white;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      color: var(--color-white);
       border: none;
       width: 60px;
       height: 100%;
       z-index: 10;
       cursor: pointer;
       opacity: 0;
-      transition: opacity 0.3s;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      @media (max-width: 768px) {
+        width: 40px;
+        height: 80%;
+      }
       
       &:hover {
-        background: rgba(0,0,0,0.9);
+        background: rgba(0, 0, 0, 0.9);
+        
+        mat-icon {
+          transform: scale(1.2);
+        }
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      &.visible {
+        opacity: 1;
+        visibility: visible;
       }
       
       &.prev {
         left: 0;
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       }
       
       &.next {
         right: 0;
+        border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+      }
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        transition: transform 0.2s ease;
       }
     }
-    
-    &:hover .slider-arrow {
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 0;
+      left: var(--spacing-xxl);
+      right: var(--spacing-xxl);
+      height: 2px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 1px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+
+      @media (max-width: 768px) {
+        left: var(--spacing-lg);
+        right: var(--spacing-lg);
+      }
+
+      .scroll-progress {
+        height: 100%;
+        background: var(--color-red);
+        border-radius: 1px;
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  &.hovered {
+    .scroll-indicator {
       opacity: 1;
     }
+  }
+}
+
+// Enhanced responsive behavior
+@media (max-width: 1200px) {
+  .content-row .row-content .content-slider {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-row {
+    margin-bottom: var(--spacing-lg);
+    
+    .row-content .slider-arrow {
+      display: none; // Hide arrows on mobile, use native scroll
+    }
+  }
+}
+
+// Smooth scroll behavior for all browsers
+@media (prefers-reduced-motion: no-preference) {
+  .content-slider {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-slider {
+    scroll-behavior: auto;
+  }
+  
+  .slider-arrow {
+    transition: none;
   }
 }

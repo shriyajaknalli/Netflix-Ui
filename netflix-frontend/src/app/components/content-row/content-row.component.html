@@ -1,14 +1,30 @@
-<div class="content-row">
+<div class="content-row" 
+     (mouseenter)="onRowHover()" 
+     (mouseleave)="onRowLeave()"
+     [class.hovered]="isHovered">
+  
   <h2 class="row-title">{{ title }}</h2>
   
   <div class="row-content">
-    <button class="slider-arrow prev" (click)="scrollLeft()" *ngIf="showArrows">
+    <!-- Left Arrow -->
+    <button 
+      class="slider-arrow prev" 
+      (click)="scrollLeft()" 
+      [class.visible]="showArrows && canScrollLeft && isHovered"
+      [disabled]="!canScrollLeft"
+      aria-label="Scroll left">
       <mat-icon>chevron_left</mat-icon>
     </button>
     
-    <div class="content-slider" #slider>
+    <!-- Content Slider -->
+    <div class="content-slider" 
+         #slider 
+         (scroll)="onScroll()"
+         role="region"
+         [attr.aria-label]="title + ' content'">
+      
       <app-movie-card 
-        *ngFor="let content of contents" 
+        *ngFor="let content of contents; trackBy: trackByContent" 
         [content]="content"
         [size]="cardSize"
         (cardClicked)="onCardClick($event)"
@@ -17,8 +33,21 @@
       </app-movie-card>
     </div>
     
-    <button class="slider-arrow next" (click)="scrollRight()" *ngIf="showArrows">
+    <!-- Right Arrow -->
+    <button 
+      class="slider-arrow next" 
+      (click)="scrollRight()" 
+      [class.visible]="showArrows && canScrollRight && isHovered"
+      [disabled]="!canScrollRight"
+      aria-label="Scroll right">
       <mat-icon>chevron_right</mat-icon>
     </button>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" *ngIf="showArrows">
+      <div class="scroll-progress" 
+           [style.width.%]="getScrollProgress()">
+      </div>
+    </div>
   </div>
 </div>
